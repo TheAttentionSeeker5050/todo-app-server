@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
+// import db schemas
+const User = require("../models/user.model")
 
 // auth routes
 router.get("/login", (req, res) => {
@@ -26,9 +28,35 @@ router.post("/register", (req, res) => {
         confirmPassword: req.body.confirmPassword,
     };
 
+    // compare passwords
+    if (formContents.password!==formContents.confirmPassword) {
+        return res.status(400).json({message: "Error. Passwords don't match"})
+    }
+
+    // encrypt password
+    
+
+    const findUser = User.findOne({
+        email: formContents.email
+    }) 
+
+    findUser.then((data) => {
+        if (data) {
+            return res.status(400).json({message: "Could not create user, user already exists"})
+        } else {
+            User.create({
+                email: formContents.email,
+                firstName: formContents.firstName,
+                lastName: formContents.lastName,
+                password: formContents.password,
+            })
+            return res.status(201).json({message: "User added to db"})
+        }
+    })
 
 
-    res.json({"echoResponse": formContents});
+    
+
 })
 
 module.exports = router;
