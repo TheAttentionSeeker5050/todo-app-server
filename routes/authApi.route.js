@@ -1,5 +1,10 @@
+// express imports
 const express = require("express");
 const router = express.Router();
+
+// encrypt libs import
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 // import db schemas
 const User = require("../models/user.model");
@@ -7,11 +12,29 @@ const User = require("../models/user.model");
 // auth routes
 router.get("/login", (req, res) => {
     // res.send("<h1>Login page</h1>");
-    res.json({"message": "Login page"});
+    res.json({message: "Login page"});
 })
 
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
+router.post("/login", (req, res) => {
+    // login post request >> result is an api key
+    const formData = {
+        email: req.body.email,
+        password: req.body.password,
+    }
+
+    // we request the user data on the db
+
+
+    // we compare the encrypted password with the form input using an algo from bcrypt
+
+    // do the password match?
+
+    // if yes, return success and web token over json response
+
+    // if not, return failure json response message
+
+    return res.status(200).json({message: "Login page"});
+})
 
 router.get("/register", (req, res) => {
     // res.send("<h1>Login page</h1>");
@@ -21,7 +44,7 @@ router.get("/register", (req, res) => {
 router.post("/register", async (req, res) => {
 
     // get form elements
-    let formContents = {
+    let formData = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
@@ -36,7 +59,7 @@ router.post("/register", async (req, res) => {
     
 
     const findUser = User.findOne({
-        email: formContents.email
+        email: formData.email
     }) 
 
     // check if the user already exists
@@ -48,16 +71,15 @@ router.post("/register", async (req, res) => {
             // encrypt password
             bcrypt.hash(req.body.password, saltRounds, function(error, hash) {
                 User.create({
-                    email: formContents.email,
-                    firstName: formContents.firstName,
-                    lastName: formContents.lastName,
+                    email: formData.email,
+                    firstName: formData.firstName,
+                    lastName: formData.lastName,
                     password: hash
                 });
             });
             return res.status(201).json({message: "User added to db"});
         }
     });
-
 });
 
 module.exports = router;
