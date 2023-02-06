@@ -23,9 +23,37 @@ router.post("/login", (req, res) => {
     }
 
     // we request the user data on the db
+    const findUser = User.findOne({
+        email: formData.email
+    }, (error, data) => {
+        // console.log("data:", data);
+        if (!data) {
+            // user does not exists, return http failure response with not found in db message
+            return res.status(500).json({message: "User not found"});
+        } else {
+            // user exists, so we continue
+
+            // we compare the encrypted password with the form input using an algo from bcrypt
+            bcrypt.compare(formData.password, data.password, (error, result) => {
+                if (result===true) {
+                    // if the passwords match, return success json response and webtoken
+                    return res.status(200).json({
+                        message: "Success: Logged in!",
+                        token: "Bearer fdvrfgvrfgrgfwre4fg"
+                    });
+
+                } else {
+                    // if the passwords don't match, return failure json response
+                    return res.status(403).json({message: "Failure: Could not log in"});
+
+                }
+            })
+        }
+    });
+
+    
 
 
-    // we compare the encrypted password with the form input using an algo from bcrypt
 
     // do the password match?
 
@@ -33,7 +61,6 @@ router.post("/login", (req, res) => {
 
     // if not, return failure json response message
 
-    return res.status(200).json({message: "Login page"});
 })
 
 router.get("/register", (req, res) => {
