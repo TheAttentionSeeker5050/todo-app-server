@@ -7,9 +7,9 @@ const UserSchema = new Schema({
     firstName: String,
     lastName: String,
     password: String,
-})
+});
 
 // add a name to schema
-const user = mongoose.model("users", UserSchema)
+const user = mongoose.model("users", UserSchema);
 
 module.exports = user;

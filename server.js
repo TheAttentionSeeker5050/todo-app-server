@@ -6,11 +6,11 @@ const port = process.env.PORT || 8080;
 const authRoutes = require("./routes/authApi.route");
 
 // dotenv
-require('dotenv').config()
+require('dotenv').config();
 
 // import db config
-const mongoose = require("./config/db.config")
-mongoose.set("strictQuery", false)
+const mongoose = require("./config/db.config");
+mongoose.set("strictQuery", false);
 
 // for processing json responses
 const bodyParser = require("body-parser");
