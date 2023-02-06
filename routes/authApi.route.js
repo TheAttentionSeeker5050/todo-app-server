@@ -16,17 +16,18 @@ router.get("/register", (req, res) => {
 })
 
 router.post("/register", (req, res) => {
-    // let formContents = {
-    //     firstName: req.body.firstName,
-    //     lastName: req.body.lastName,
-    //     email: req.body.email,
-    //     password: req.body.password,
-    // }
 
-    let formContents = req.body
-    console.log(formContents)
+    // get form elements
+    let formContents = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        password: req.body.password,
+        confirmPassword: req.body.confirmPassword,
+    }
 
-    res.json(formContents)
+
+    res.json({"echoResponse": formContents})
 })
 
 module.exports = router;
