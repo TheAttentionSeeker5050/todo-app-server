@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 // import db schemas
-const User = require("../models/user.model")
+const User = require("../models/user.model");
 
 // auth routes
 router.get("/login", (req, res) => {
@@ -30,7 +30,7 @@ router.post("/register", (req, res) => {
 
     // compare passwords
     if (formContents.password!==formContents.confirmPassword) {
-        return res.status(400).json({message: "Error. Passwords don't match"})
+        return res.status(400).json({message: "Error. Passwords don't match"});
     }
 
     // encrypt password
@@ -40,23 +40,21 @@ router.post("/register", (req, res) => {
         email: formContents.email
     }) 
 
+    // check if the user already exists
     findUser.then((data) => {
         if (data) {
-            return res.status(400).json({message: "Could not create user, user already exists"})
+            return res.status(400).json({message: "Could not create user, user already exists"});
         } else {
             User.create({
                 email: formContents.email,
                 firstName: formContents.firstName,
                 lastName: formContents.lastName,
                 password: formContents.password,
-            })
-            return res.status(201).json({message: "User added to db"})
+            });
+            return res.status(201).json({message: "User added to db"});
         }
-    })
+    });
 
-
-    
-
-})
+});
 
 module.exports = router;
