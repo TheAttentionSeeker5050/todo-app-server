@@ -29,7 +29,7 @@ router.post("/login", (req, res) => {
         // console.log("data:", data);
         if (!data) {
             // user does not exists, return http failure response with not found in db message
-            return res.status(500).json({message: "User not found"});
+            return res.status(500).json({message: "Error: User not found"});
         } else {
             // user exists, so we continue
 
@@ -80,7 +80,7 @@ router.post("/register", async (req, res) => {
 
     // compare passwords
     if (req.body.password!==req.body.confirmPassword) {
-        return res.status(400).json({message: "Error. Passwords don't match"});
+        return res.status(400).json({message: "Error: Passwords don't match"});
     }
 
     
@@ -92,7 +92,7 @@ router.post("/register", async (req, res) => {
     // check if the user already exists
     await findUser.then((data) => {
         if (data) {
-            return res.status(400).json({message: "Could not create user, user already exists"});
+            return res.status(400).json({message: "Failure: Could not create user, user already exists"});
         } else {
 
             // encrypt password
@@ -104,7 +104,9 @@ router.post("/register", async (req, res) => {
                     password: hash
                 });
             });
-            return res.status(201).json({message: "User added to db"});
+
+            // return response
+            return res.status(201).json({message: "Success: User added to db"});
         }
     });
 });
