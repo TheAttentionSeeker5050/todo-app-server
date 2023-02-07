@@ -9,13 +9,11 @@ const saltRounds = 10;
 // import db schemas
 const User = require("../models/user.model");
 
-// passport import
-const passport = require("passport");
+// auth token and middlewares imports
 const jwt = require('jsonwebtoken');
 const { generateAccessToken, authenticateToken } = require("../middlewares/authenticate.middleware");
 
-// // import middleware
-// const {generateAccessToken, authenticateToken} = require("../middlewares/authenticate.middleware");
+
 
 // auth routes
 router.get("/login", (req, res) => {
@@ -111,13 +109,6 @@ router.post("/register", async (req, res) => {
                     password: hash
                 });
             });
-
-            // User.create({
-            //     email: formData.email,
-            //     firstName: formData.firstName,
-            //     lastName: formData.lastName,
-            //     password: req.body.password
-            // });
 
             // return response
             return res.status(201).json({message: "Success: User added to db"});

@@ -4,7 +4,7 @@ const port = process.env.PORT || 8080;
 
 // import routes
 const authRoutes = require("./routes/authApi.route");
-
+const apiRoutes = require("./routes/api.route")
 
 
 
@@ -25,6 +25,7 @@ app.get("/", (req, res) => {
 })
 
 app.use("/api/v1/auth", authRoutes);
+// app.use("/api/v1", apiRoutes);
 
 app.listen(port, () => {
     console.log(`Bolierplate app listening on port ${port}`);
