@@ -12,6 +12,7 @@ const User = require("../models/user.model");
 // passport import
 const passport = require("passport");
 const jwt = require('jsonwebtoken');
+const { generateAccessToken, authenticateToken } = require("../middlewares/authenticate.middleware");
 
 // // import middleware
 // const {generateAccessToken, authenticateToken} = require("../middlewares/authenticate.middleware");
@@ -23,6 +24,9 @@ router.get("/login", (req, res) => {
 })
 
 router.post("/login", (req, res) => {
+
+    
+
     // login post request >> result is an api key
     const formData = {
         email: req.body.email,
@@ -46,7 +50,8 @@ router.post("/login", (req, res) => {
                     
                     // get token
                     // const token = generateAccessToken({email: req.body.email})
-                    const token = "rfgrgregr"
+                    const token = generateAccessToken(formData.email);
+                    console.log(token)
 
                     // if the passwords match, return success json response and webtoken
                     return res.status(200).json({
@@ -107,16 +112,24 @@ router.post("/register", async (req, res) => {
                 });
             });
 
+            // User.create({
+            //     email: formData.email,
+            //     firstName: formData.firstName,
+            //     lastName: formData.lastName,
+            //     password: req.body.password
+            // });
+
             // return response
             return res.status(201).json({message: "Success: User added to db"});
         }
     });
 });
 
-// router.get("/profile", 
-// // authenticateToken, 
-// (req, res) => {
-//     res.send(req.user.profile)
-// })
+/* GET user profile. */
+router.get('/profile', authenticateToken, function(req, res, next) {
+    
+    res.send(req.user);
+});
+
 
 module.exports = router;
