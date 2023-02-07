@@ -5,6 +5,12 @@ const port = process.env.PORT || 8080;
 // import routes
 const authRoutes = require("./routes/authApi.route");
 
+// import passport
+// var passport = require('passport');
+// app.use(passport.initialize());
+// app.use(passport.session());
+
+
 // dotenv
 require('dotenv').config();
 

@@ -9,6 +9,13 @@ const saltRounds = 10;
 // import db schemas
 const User = require("../models/user.model");
 
+// passport import
+const passport = require("passport");
+const jwt = require('jsonwebtoken');
+
+// import middleware
+const {generateAccessToken, authenticateToken} = require("../middlewares/authenticate.middleware");
+
 // auth routes
 router.get("/login", (req, res) => {
     // res.send("<h1>Login page</h1>");
@@ -36,10 +43,14 @@ router.post("/login", (req, res) => {
             // we compare the encrypted password with the form input using an algo from bcrypt
             bcrypt.compare(formData.password, data.password, (error, result) => {
                 if (result===true) {
+                    
+                    // get token
+                    const token = generateAccessToken({email: req.body.email})
+
                     // if the passwords match, return success json response and webtoken
                     return res.status(200).json({
                         message: "Success: Logged in!",
-                        token: "Bearer fdvrfgvrfgrgfwre4fg"
+                        token: `Bearer ${token}`
                     });
 
                 } else {
@@ -110,5 +121,9 @@ router.post("/register", async (req, res) => {
         }
     });
 });
+
+router.get("/profile", authenticateToken, (req, res) => {
+    res.send(req.user.profile)
+})
 
 module.exports = router;
