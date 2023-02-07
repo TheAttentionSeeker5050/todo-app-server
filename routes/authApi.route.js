@@ -13,7 +13,7 @@ const User = require("../models/user.model");
 const passport = require("passport");
 const jwt = require('jsonwebtoken');
 
-// import middleware
+// // import middleware
 // const {generateAccessToken, authenticateToken} = require("../middlewares/authenticate.middleware");
 
 // auth routes
