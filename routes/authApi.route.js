@@ -14,7 +14,7 @@ const passport = require("passport");
 const jwt = require('jsonwebtoken');
 
 // import middleware
-const {generateAccessToken, authenticateToken} = require("../middlewares/authenticate.middleware");
+// const {generateAccessToken, authenticateToken} = require("../middlewares/authenticate.middleware");
 
 // auth routes
 router.get("/login", (req, res) => {
@@ -45,7 +45,8 @@ router.post("/login", (req, res) => {
                 if (result===true) {
                     
                     // get token
-                    const token = generateAccessToken({email: req.body.email})
+                    // const token = generateAccessToken({email: req.body.email})
+                    const token = "rfgrgregr"
 
                     // if the passwords match, return success json response and webtoken
                     return res.status(200).json({
@@ -61,16 +62,6 @@ router.post("/login", (req, res) => {
             })
         }
     });
-
-    
-
-
-
-    // do the password match?
-
-    // if yes, return success and web token over json response
-
-    // if not, return failure json response message
 
 })
 
@@ -122,8 +113,10 @@ router.post("/register", async (req, res) => {
     });
 });
 
-router.get("/profile", authenticateToken, (req, res) => {
-    res.send(req.user.profile)
-})
+// router.get("/profile", 
+// // authenticateToken, 
+// (req, res) => {
+//     res.send(req.user.profile)
+// })
 
 module.exports = router;
