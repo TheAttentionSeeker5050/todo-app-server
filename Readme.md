@@ -1,5 +1,5 @@
-# Express Mongo JWT boilerplate
+# Todo App with Express Mongo JWT
 
 ![Witch Boilerplate](./logo.webp)
 
-A quick template to work on Express, Mongo and JWT backend API's
+A server for my todo app using node.js, express and mongo.
