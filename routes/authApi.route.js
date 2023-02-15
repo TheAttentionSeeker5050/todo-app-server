@@ -22,7 +22,6 @@ router.get("/login", (req, res) => {
 })
 
 router.post("/login", (req, res) => {
-
     
 
     // login post request >> result is an api key
@@ -49,7 +48,6 @@ router.post("/login", (req, res) => {
                     // get token
                     // const token = generateAccessToken({email: req.body.email})
                     const token = generateAccessToken(formData.email);
-                    console.log(token)
 
                     // if the passwords match, return success json response and webtoken
                     return res.status(200).json({

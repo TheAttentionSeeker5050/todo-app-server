@@ -50,8 +50,8 @@ app.get("/", (req, res) => {
 })
 
 app.use("/api/v1/auth", authRoutes);
-// app.use("/api/v1", apiRoutes);
+app.use("/api/v1", apiRoutes);
 
 app.listen(port, () => {
-    console.log(`Bolierplate app listening on port ${port}`);
+    console.log(`Server listening on port ${port}`);
 })
