@@ -38,7 +38,7 @@ router.post("/login", (req, res) => {
         // console.log("data:", data);
         if (!data) {
             // user does not exists, return http failure response with not found in db message
-            return res.status(500).json({message: "Error: User not found"});
+            return res.status(500).json({message: "Error: User not found", data: formData});
         } else {
             // user exists, so we continue
 
