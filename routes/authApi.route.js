@@ -30,6 +30,7 @@ router.post("/login", (req, res) => {
         password: req.body.password,
     }
 
+
     // we request the user data on the db
     const findUser = User.findOne({
         email: formData.email
