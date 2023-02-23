@@ -15,7 +15,7 @@ const CompletedTodo = require("../models/completedTodos");
 // ----------------------------- Todos routes
 
 router.post("/todos", authenticateToken, async (req, res) => {
-    // add a new todo for new user
+    // this works both as add todos for first time or refreshing the todos list
 
 
     // request data
@@ -29,14 +29,18 @@ router.post("/todos", authenticateToken, async (req, res) => {
     // we first find if there is a todo entry with the same user email on the database
     const todoEntries = Todo.findOne({user: reqData.user})
     
-    await todoEntries.then( todos => {
+
+    await todoEntries.then( async todos => {
         if (!todos) {
             // if user doesn't has entry, add to db, return http success and message
             Todo.create(reqData)
-            return res.status(201).json({message: "Success: Created entry"});
+            return res.status(201).json({message: "Success: Created todos entry list"});
         } else {
-            // if user already has entry, return http invalid error
-            return res.status(404).json({message: "Error: Entry already exist"});
+            // if user already has entries, replace them
+            await Todo.findOneAndReplace({user: reqData.user} , {user: reqData.user, todos: reqData.todos});
+            return res.status(200).json({message: "Success: Replaced current todos entry list"});
+
+            // return res.status(404).json({message: "Error: Entry already exist"});
         }
     });
 });
