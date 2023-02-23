@@ -40,6 +40,8 @@ Click on Connect on the top right side of the page, there you will find the inst
 
 Copy the connection string to your clipboard
 
+![Image 3](manual_capture_3.png)
+
 <br>
 <br>
 
