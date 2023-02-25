@@ -24,6 +24,8 @@ router.post("/todos", authenticateToken, async (req, res) => {
             todos: JSON.parse(req.body.todos) // we have to parse the todos, otherwise it is a string
         };
         
+        console.log(reqData)
+
         // we first find if there is a todo entry with the same user email on the database
         const todoEntries = Todo.findOne({user: reqData.user});
         
