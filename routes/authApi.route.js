@@ -30,12 +30,15 @@ router.post("/login", (req, res) => {
         password: req.body.password,
     }
 
+    // console.log("request body:", req.body);
+
 
     // we request the user data on the db
     const findUser = User.findOne({
-        email: formData.email
+        email: req.body.email
     }, (error, data) => {
         // console.log("data:", data);
+        // console.log("error:", error);
         if (!data) {
             // user does not exists, return http failure response with not found in db message
             return res.status(500).json({message: "Error: User not found"});

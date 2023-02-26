@@ -17,18 +17,21 @@ const CompletedTodo = require("../models/completedTodos");
 router.post("/todos", authenticateToken, async (req, res) => {
     // this works both as add todos for first time or renewing the todos list
 
+
     try {
         // request data
         const reqData = {
             user: req.user, // email
-            todos: JSON.parse(req.body.todos) // we have to parse the todos, otherwise it is a string
+            todos: req.body.todos // we have to parse the todos, otherwise it is a string
         };
         
-        console.log(reqData)
 
         // we first find if there is a todo entry with the same user email on the database
         const todoEntries = Todo.findOne({user: reqData.user});
         
+        // console.log(todoEntries)
+        console.log("before todo entries")
+
         await todoEntries.then( async todos => {
             if (!todos) {
                 // if user doesn't has entry, add to db, return http success and message
@@ -36,7 +39,9 @@ router.post("/todos", authenticateToken, async (req, res) => {
                 return res.status(201).json({message: "Success: Created todos entry list"});
             } else {
                 // if user already has entries, replace them
+                console.log("before saving to db")
                 await Todo.findOneAndReplace({user: reqData.user} , {user: reqData.user, todos: reqData.todos});
+                console.log("after saving to db")
                 return res.status(200).json({message: "Success: Replaced current todos entry list"});
             }
         });
@@ -48,6 +53,10 @@ router.post("/todos", authenticateToken, async (req, res) => {
 
 router.get("/todos", authenticateToken, async (req, res) => {
     // get the todos for user
+    console.log("start get todos")
+
+    console.log(req.user)
+
     try {
         // find todos in database
         const todoEntries = Todo.findOne({user: req.user});
@@ -55,9 +64,11 @@ router.get("/todos", authenticateToken, async (req, res) => {
         await todoEntries.then(todos => {
             if (!todos) {
             // if there are not todos, return empty todos array
+            console.log("return empty todo")
             return res.status(200).json({todos: []});
         } else {
             // if there are todos, return todos array
+            console.log("returned todos:", todos.todos)
             return res.status(200).json({todos: todos.todos});
         }
     });
@@ -77,7 +88,7 @@ router.post("/completed-todos", authenticateToken, async (req, res) => {
         // request data
         const reqData = {
             user: req.user, // email
-            completedTodos: JSON.parse(req.body.completedTodos) // we have to parse the todos, otherwise it is a string
+            completedTodos: req.body.completedTodos // we have to parse the todos, otherwise it is a string
         };
         
         // we first find if there is a todo entry with the same user email on the database
@@ -105,6 +116,9 @@ router.get("/completed-todos", authenticateToken, async (req, res) => {
     // get the todos for user
     try {
         // find todos in database
+
+        console.log("user:",req.user)
+
         const completedTodoEntries = CompletedTodo.findOne({user: req.user});
         
         await completedTodoEntries.then(completedTodos => {
